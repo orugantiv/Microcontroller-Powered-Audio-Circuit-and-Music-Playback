@@ -55,7 +55,7 @@ Q = 0.5;
 H = 1;
 EX = 1.5;
 FULL = 2;
-EXH = 2.;
+EXH = 2.5;
 
 
 # Timer for callbacks
@@ -63,12 +63,12 @@ timer = Timer()
 
 
 # notes and durations for tones
-twinkle_note=  [C, 0, C, G, 0, G, A, 0, A, G, F, 0, F, E, 0, E, D, 0, D, C, 
-                G, 0, G, F, 0, F, E, 0, E, D, G, 0, G, F, 0, F, E, 0, E, D, C, 0, 
-                C, G, 0, G, A, 0, A, G, F, 0, F, E, 0, E, D, 0, D, C]
-twinkle_duration= [Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H, Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H, 
-                Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H, Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H, Q, 0.01, 
-                Q, Q, 0.01, Q, Q, 0.01, Q, H, Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H]
+twinkle_note=  [C, C, G, G, A, A, G, F, F, E, E, D, D, C, G, 
+                G, F, F, E, E, D, G, G, F, F, E, E, D, C, C, 
+                G, G, A, A, G, F, F, E, E, D, D, C]
+twinkle_duration= [Q, Q, Q, Q, Q, Q, H, Q, Q, Q, Q, Q, Q, H, 
+                Q, Q, Q, Q, Q, Q, H, Q, Q, Q, Q, Q, Q, H, 
+                Q, Q, Q, Q, Q, Q, H, Q, Q, Q, Q, Q, Q, H]
 
 damned_note= [B, E, BL, B, E, BL, B, E, B, E, BL, B, E, BL, B, E, CH, E, C, CH, E, C, CH, E, DH, E, C,
               CH, E, C, B, E, B, E, BL, B, E, BL, B, E , B, E, BL, B, E, BL, B, E, CH, E, C, CH, E, C, CH, E, DH, E, C, CH, E, C, B, A]
@@ -91,10 +91,13 @@ hedwig_note= [E, A, CH, B, A, EH, DH, B, A, CH, B, G, Bf, E, E, A, CH, B, A, EH,
 hedwig_duration= [Q, Q, Q, Q, H, Q, EX, EX, Q, Q, Q, H, Q, EXH, Q, Q, Q, Q, H, Q, H, Q, H, 
                 Q, Q, Q, Q, H, Q, EXH, Q]
 
-
+bday_note= [C, C, D, C, F, E, C, C, D, C, G, F, C, C, CH, A, F, E, D, Bf, Bf, A, F, G, F
+                ]
+bday_duration = [ETex, SX, Q, Q, Q, H, ETex, SX, Q, Q, Q, H, ETex, SX, Q, Q, Q, Q, Q, ETex, SX, 
+                Q, Q, Q, H]
 LED_ON = 35000
 LED_OFF = 0
-vol = 1000
+vol = 2000
 
 def displaySegments(value):
     a = LED_ON
@@ -135,21 +138,22 @@ displaySegments(1)
 # Interrupt function for volume up button
 def checkVolUpInput(t):
     global vol
-    if vol<15000:
+    if vol<(15000+1000):
         vol +=1000
-        displaySegments(0 if vol == 0 else vol/1000)
+        displaySegments(0 if vol == 0 else (vol-1000)/1000)
 # Interrupt function for volume down button
 def checkVolDownInput(t):
     global vol
-    if vol>0:
+    if vol>(1000):
         vol -=1000
-        displaySegments(0 if vol == 0 else vol/1000)
+        displaySegments(0 if vol == 0 else (vol-1000)/1000)
 i = 0
 limit = 0
 notes = []
 notes_duration = []
 playing = False
 def playsong(timer):
+    
     global  i
     global playing
     if i == limit:
@@ -157,6 +161,7 @@ def playsong(timer):
         playing = False
     else:
         speaker.duty_u16(0)
+        utime.sleep(0.015)
         speaker.duty_u16(int(vol))
         speaker.freq(int(int(notes[i])))
         i+=1
@@ -198,9 +203,20 @@ while 1:
         limit = len(hedwig_note)-1
         playing = True
         timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playsong)
-        
+    elif song5.value()and (not playing or not notes == bday_note) :
+        notes = bday_note
+        notes_duration = bday_duration
+        i = 0
+        limit = len(bday_note)-1
+        playing = True
+        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playsong)
+            
     # Shuts off the song if none of the led(s) are on. aka reset 
-    if not (song1.value() or song2.value() or  song3.value() or song4.value()):
+    if not (song1.value() or song2.value() or  song3.value() or song4.value() or song5.value()):
         speaker.duty_u16(0)
         playing = False
         pass
+    if (vol == 1000):
+        speaker.duty_u16(0)
+
+        
