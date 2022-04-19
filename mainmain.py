@@ -63,12 +63,12 @@ timer = Timer()
 
 
 # notes and durations for tones
-twinkle_note=  [C, C, G, G, A, A, G, F, F, E, E, D, D, C, G, 
-                G, F, F, E, E, D, G, G, F, F, E, E, D, C, C, 
-                G, G, A, A, G, F, F, E, E, D, D, C]
-twinkle_duration= [Q, Q, Q, Q, Q, Q, H, Q, Q, Q, Q, Q, Q, H, 
-                Q, Q, Q, Q, Q, Q, H, Q, Q, Q, Q, Q, Q, H, 
-                Q, Q, Q, Q, Q, Q, H, Q, Q, Q, Q, Q, Q, H]
+twinkle_note=  [C, 0, C, G, 0, G, A, 0, A, G, F, 0, F, E, 0, E, D, 0, D, C, 
+                G, 0, G, F, 0, F, E, 0, E, D, G, 0, G, F, 0, F, E, 0, E, D, C, 0, 
+                C, G, 0, G, A, 0, A, G, F, 0, F, E, 0, E, D, 0, D, C]
+twinkle_duration= [Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H, Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H, 
+                Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H, Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H, Q, 0.01, 
+                Q, Q, 0.01, Q, Q, 0.01, Q, H, Q, 0.01, Q, Q, 0.01, Q, Q, 0.01, Q, H]
 
 damned_note= [B, E, BL, B, E, BL, B, E, B, E, BL, B, E, BL, B, E, CH, E, C, CH, E, C, CH, E, DH, E, C,
               CH, E, C, B, E, B, E, BL, B, E, BL, B, E , B, E, BL, B, E, BL, B, E, CH, E, C, CH, E, C, CH, E, DH, E, C, CH, E, C, B, A]
