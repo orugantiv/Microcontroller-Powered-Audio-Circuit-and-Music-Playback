@@ -149,7 +149,7 @@ limit = 0
 notes = []
 notes_duration = []
 playing = False
-def playnotes(timer):
+def playsong(timer):
     global  i
     global playing
     if i == limit:
@@ -176,32 +176,31 @@ while 1:
         i = 0
         limit = len(twinkle_note)-1
         playing = True
-        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playnotes)
+        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playsong)
     elif song2.value() and (not playing or not notes == damned_note) :
         notes = damned_note
         notes_duration = damned_duration
         i = 0
         limit = len(damned_note)-1
         playing = True
-        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playnotes)
+        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playsong)
     elif song3.value() and (not playing or not notes == letit_note) :
         notes = letit_note
         notes_duration = letit_duration
         i = 0
         limit = len(letit_duration)-1
         playing = True
-        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playnotes)
+        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playsong)
     elif song4.value()and (not playing or not notes == hedwig_note) :
         notes = hedwig_note
         notes_duration = hedwig_duration
         i = 0
         limit = len(hedwig_note)-1
         playing = True
-        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playnotes)
+        timer.init(freq=1/notes_duration[i], mode=Timer.ONE_SHOT, callback=playsong)
         
     # Shuts off the song if none of the led(s) are on. aka reset 
-    if not (song1.value() or song2.value() or  song3.value() or ):
+    if not (song1.value() or song2.value() or  song3.value() or song4.value()):
         speaker.duty_u16(0)
         playing = False
         pass
-        
