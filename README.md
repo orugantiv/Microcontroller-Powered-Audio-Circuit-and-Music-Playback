@@ -1,4 +1,4 @@
-# Audio Amplification Circuit
+# Microcontroller-Powered Audio Circuit and Music Playback
 ## Project Description
 Our project concept involves the creation of an audio amplification circuit designed using the microcontroller from project 7 as the basis. The primary function is to use sound files (music or just noise) passed into the microcontroller. This is then translated into electrical signals and then passed to the audio amplifier circuit, which should filter or amplify the electrical signal based on the user's input into 4 different switches. The resulting signal is then outputted to the user as audio via a speaker introduced into the circuit design.
 
